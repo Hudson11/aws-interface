@@ -12,6 +12,7 @@
     "@types/react-dom": "^16.9.0",
     "axios": "^0.20.0",
     "classnames": "^2.2.6",
+    "global": "^4.4.0",
     "primeicons": "^4.0.0",
     "primereact": "^5.0.0-rc.2",
     "react": "^16.13.1",
@@ -19,6 +20,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "react-transition-group": "^4.4.1",
+    "serve": "^11.3.2",
     "styled-components": "^5.2.0",
     "typescript": "~3.7.2"
   },

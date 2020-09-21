@@ -23,9 +23,6 @@ export default createGlobalStyle`
     :root{
         --primaryColor: #000051;
         --secondaryColor: white;
-        --buttonPrimary: #00c853;
-        --buttonInfo: #3d5aff;
-        --buttonSecondary: #e53935;
     }
 `;
 

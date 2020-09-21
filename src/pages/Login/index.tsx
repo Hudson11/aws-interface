@@ -28,7 +28,7 @@ const Login: React.FC = () => {
 			}
 			else {
 				localStorage.setItem('token', promise.data.token)
-				history.push('/home')
+				history.replace('/home')
 			}
 		}
 		else {
@@ -46,7 +46,7 @@ const Login: React.FC = () => {
 				<Toast ref={toast} />
 				<form onSubmit={event => login(event)}>
 					<InputText placeholder="Email" type="email" required onChange={event => setEmail(event.currentTarget.value)} 
-						style={{width: '100%'}}/>
+						style={{width: '100%'}}	/>
 					<Divider height="10px" />
 					<InputText placeholder="Password" type="password" required onChange={event => setPassword(event.currentTarget.value)} 
 						style={{width: '100%'}}/>

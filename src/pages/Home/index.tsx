@@ -24,24 +24,23 @@ const Home: React.FC = () => {
 	const [openDialog, setOpenDialog] = useState(false)
 	const [bucketName, setBucketName] = useState<String>()
 	const toast = useRef<Toast>(null)
+	const [load, setLoad] = useState(false)
 	const history = useHistory()
 
 	// Responsável por carregar os buckets na inicialização
 	useEffect(() => {
-		const token = `Bearer ${localStorage.getItem('token')}`
-		api.get('/s3', { headers: { Authorization: token } }).then((doc) => {
-			setBuckets(doc.data.Buckets)
-		}).catch((err) => {
-			console.log(err)
-		})
+		getBuckets()
 	}, [])
 
 	function getBuckets(): void {
 		const token = `Bearer ${localStorage.getItem('token')}`
+		setLoad(true)
 		api.get('/s3', { headers: { Authorization: token } }).then((doc) => {
 			setBuckets(doc.data.Buckets)
+			setLoad(false)
 		}).catch(() => {
 			toast.current?.show({ severity: 'warn', summary: 'Warn', detail: 'Internal Error' })
+			setLoad(false)
 		})
 	}
 
@@ -98,7 +97,7 @@ const Home: React.FC = () => {
 					<Column field="CreationDate" header="Creation Date"></Column>
 					<Column body={body}></Column>
 				</DataTable>
-				: <div> <ProgressBar mode="indeterminate" style={{ height: '6px' }}></ProgressBar> </div>
+				: load ? <div> <ProgressBar mode="indeterminate" style={{ height: '6px' }}></ProgressBar> </div> : <></>
 			}
 			{ /** MODAL ADD BUCKET */}
 			<Dialog header="Create Bucket" visible={openDialog} style={{ width: '50vw' }} onHide={() => setOpenDialog(false)}>

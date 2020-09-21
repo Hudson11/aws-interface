@@ -33,26 +33,33 @@ const Bucket: React.FC = () => {
 	const [objects, setObjects] = useState<BucketObject[]>([])
 	const [openDialog, setOpenDialog] = useState(false)
 	const [aguarde, setAguarde] = useState(false)
+	const [load, setLoad] = useState(false)
 
 	// carrega todos os objects do bucket na inicializaçaõ
 	useEffect(() => {
 		const token = `Bearer ${localStorage.getItem('token')}`
+		setLoad(true)
 		api.get(`/s3/${id}/objects`, { headers: { Authorization: token } }).then((doc) => {
 			if (doc.data.Contents.length > 0) {
 				setObjects(doc.data.Contents)
 			}
+			setLoad(false)
 		}).catch(() => {
+			setLoad(false)
 			toast.current?.show({ severity: 'warn', summary: 'Warn', detail: 'Internal Error' })
 		})
 	}, [ id ])
 
 	function getObjects(): void{
 		const token = `Bearer ${localStorage.getItem('token')}`
+		setLoad(true)
 		api.get(`/s3/${id}/objects`, { headers: { Authorization: token } }).then((doc) => {
 			if (doc.data.Contents.length > 0) {
 				setObjects(doc.data.Contents)
 			}
+			setLoad(false)
 		}).catch(() => {
+			setLoad(false)
 			toast.current?.show({ severity: 'warn', summary: 'Warn', detail: 'Internal Error' })
 		})
 	}
@@ -138,7 +145,7 @@ const Bucket: React.FC = () => {
 					<Column field="Owner.DisplayName" header="Username"></Column>
 					<Column body={body}></Column>
 				</DataTable>
-				: <div> <ProgressBar mode="indeterminate" style={{ height: '6px' }}></ProgressBar> </div>
+				: load ? <div> <ProgressBar mode="indeterminate" style={{ height: '6px' }}></ProgressBar> </div> : <></>
 			}
 			{ /** DIALOG UPLOADFILE */ }
 			<Dialog header="Upload File" visible={openDialog} onHide={() => setOpenDialog(false)}
