@@ -27,8 +27,8 @@ const Login: React.FC = () => {
 				toast.current?.show({ severity: 'info', summary: 'Unauthorized', detail: promise.data.message })
 			}
 			else {
-				localStorage.setItem('token', promise.data.token)
-				history.replace('/home')
+				localStorage.setItem('token', promise.data.token)			
+				history.push('/home')
 			}
 		}
 		else {

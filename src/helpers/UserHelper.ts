@@ -1,12 +1,10 @@
 class UserHelper {
 	static isAuthenticated(): Boolean {
 		const token = localStorage.getItem('token')
-		if (token !== null) {
-			console.log('VALIDOU')
-			return true
+		if (!token) {
+			return false
 		}
-		console.log('REIOSSE')
-		return false
+		return true
 	}
 }
 

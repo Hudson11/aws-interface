@@ -6,11 +6,11 @@ import Bucket from './pages/Bucket';
 import CreateAccount from './pages/CreateAccount';
 import UserHelper from './helpers/UserHelper'
 
-const PrivateRoute = ({ component, isAuthenticated, ...rest }: any) => {
+const PrivateRoute = ({ component: Component, ...rest }: any) => {
   const routeComponent = (props: any) => (
-    isAuthenticated
-      ? React.createElement(component, props)
-      : <Redirect to={{ pathname: '/' }} />
+    UserHelper.isAuthenticated()
+      ? <Component {...props} />
+      : <Redirect to={{ pathname: '/', state: { from: props.location }} } />
   );
   return <Route {...rest} render={routeComponent} />;
 };
@@ -20,8 +20,8 @@ const Routes: React.FC = () => {
     <BrowserRouter>
       <Switch>
         <Route exact path="/" component={Login} />
-        <PrivateRoute path="/home" component={Home} isAuthenticated={UserHelper.isAuthenticated()} />
-        <PrivateRoute path="/bucket/:id" component={Bucket} isAuthenticated={UserHelper.isAuthenticated()} />
+        <PrivateRoute path="/home" component={Home}/>
+        <PrivateRoute path="/bucket/:id" component={Bucket}/>
         <Route path="/createaccount" component={CreateAccount} />
       </Switch>
     </BrowserRouter>

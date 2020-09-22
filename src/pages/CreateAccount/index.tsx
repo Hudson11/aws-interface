@@ -27,7 +27,7 @@ const CreateAccount: React.FC = () => {
 					toast.current?.show({ severity: 'warn', summary: 'Error', detail: 'E-mail already registered' })
 				}
 				else{
-					history.replace('/')
+					history.push('/')
 				}
 			}
 		}).catch(() => {
