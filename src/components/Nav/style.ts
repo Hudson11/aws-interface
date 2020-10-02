@@ -45,4 +45,11 @@ export const Flex = styled.div`
     .p-button-secondary{
         background-color: transparent;
     }
+
+    a {
+        outline-style: none;
+        text-decoration: none;
+        color: white;
+        margin-right: 20px;
+    }
 `;

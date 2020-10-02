@@ -1,7 +1,8 @@
 import axios from 'axios'
+import 'dotenv/config'
 
 const api = axios.create({
-    baseURL: 'https://aws-service-api.herokuapp.com',
+    baseURL: `URL`,
 })
 
 export default api

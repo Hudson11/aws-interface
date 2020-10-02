@@ -1,5 +1,5 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { Container, NavBar, Logo, Flex } from './style'
 import { Button } from 'primereact/button';
 
@@ -22,6 +22,7 @@ const Nav: React.FC = () => {
 				<ul>
 					<li>	
 						<Flex>
+							<Link to="/rekognition"> Rekognition </Link>
 							<label>Logout</label>
 							<Button icon="pi pi-arrow-right" className="p-button-rounded p-button-secondary" 
 								onClick={() => logout()}/>

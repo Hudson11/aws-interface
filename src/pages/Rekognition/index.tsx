@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react'
 import Nav from '../../components/Nav';
-import { useParams } from 'react-router-dom';
 import api from '../../service/api'
 
 // components prime
@@ -11,32 +10,16 @@ import { Toast } from 'primereact/toast';
 import { Dialog } from 'primereact/dialog';
 import { FileUpload } from 'primereact/fileupload';
 import { ProgressBar } from 'primereact/progressbar';
-
-interface Owner {
-	DisplayName: string
-	ID: string
-}
-
-interface ParamType {
-	id: string | undefined
-}
-
-export interface BucketObject{
-	Key: string
-	LastModified: string
-	Size: number
-	StorageClass: string	
-	Owner: Owner
-}
+import { BucketObject } from '../Bucket';
 
 const h2Style = {
 	marginLeft: '10px'
 }
 
-const Bucket: React.FC = () => {
+const Rekognition: React.FC = () => {
 
 	// id bucket params
-	const { id } = useParams<ParamType>()
+	const id = 'serverless-rekognition-person'
 	const toast = useRef<Toast>(null)
 	const [objects, setObjects] = useState<BucketObject[]>([])
 	const [faces, setFaces] = useState<BucketObject[]>([])
@@ -46,19 +29,7 @@ const Bucket: React.FC = () => {
 
 	// carrega todos os objects do bucket na inicializaçaõ
 	useEffect(() => {
-		const token = `Bearer ${localStorage.getItem('token')}`
-		setLoad(true)
-		api.get(`/s3/${id}/objects`, { headers: { Authorization: token } }).then((doc) => {
-			const list = doc.data.Contents
-			const face = list.filter((value: { Key: string | string[]; }) => value.Key.includes('faces/'))
-			const arqs = list.filter((value: { Key: string | string[]; }) => !value.Key.includes('faces/'))
-			setFaces(face)
-			setObjects(arqs)
-			setLoad(false)
-		}).catch(() => {
-			setLoad(false)
-			toast.current?.show({ severity: 'warn', summary: 'Warn', detail: 'Internal Error' })
-		})
+		getObjects()
 	}, [ id ])
 
 	function getObjects(): void{
@@ -66,7 +37,8 @@ const Bucket: React.FC = () => {
 		setLoad(true)
 		api.get(`/s3/${id}/objects`, { headers: { Authorization: token } }).then((doc) => {
 			const list = doc.data.Contents
-			const face = list.filter((value: { Key: string | string[]; }) => value.Key.includes('faces/'))
+			var face = list.filter((value: { Key: string | string[]; }) => value.Key.includes('faces/'))
+			face = face.filter((value: { Key: string; }) => value.Key !== 'faces/')
 			const arqs = list.filter((value: { Key: string | string[]; }) => !value.Key.includes('faces/'))
 			setFaces(face)
 			setObjects(arqs)
@@ -232,4 +204,4 @@ const Bucket: React.FC = () => {
 	);
 }
 
-export default Bucket
+export default Rekognition

@@ -57,3 +57,11 @@ export const Button = styled.button`
     background-color: ${props => props.color === 'info' ? 'var(--buttonInfo)' : 'var(--buttonPrimary)'};
     cursor: pointer;
 `;
+
+export const Center = styled.div`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+`;

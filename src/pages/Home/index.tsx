@@ -30,13 +30,16 @@ const Home: React.FC = () => {
 	// Responsável por carregar os buckets na inicialização
 	useEffect(() => {
 		getBuckets()
-	}, [])
+	}, [ ])
 
 	function getBuckets(): void {
 		const token = `Bearer ${localStorage.getItem('token')}`
 		setLoad(true)
 		api.get('/s3', { headers: { Authorization: token } }).then((doc) => {
-			setBuckets(doc.data.Buckets)
+			const list = doc.data.Buckets
+			const buckets = list.filter((value: { Name: string; }) => value.Name !== 'serverless-rekognition-person' 
+				&& value.Name !== 'face-detection-dev-serverlessdeploymentbucket-r4ph87r6vi4c')
+			setBuckets(buckets)
 			setLoad(false)
 		}).catch(() => {
 			toast.current?.show({ severity: 'warn', summary: 'Warn', detail: 'Internal Error' })

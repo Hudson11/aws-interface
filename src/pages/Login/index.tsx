@@ -13,12 +13,14 @@ const Login: React.FC = () => {
 
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
+	const [loginProcess, setLoginProcess] = useState(false)
 	const toast = useRef<Toast>(null)
 	const history = useHistory()
 
 	async function login(event: FormEvent): Promise<void> {
 		event.preventDefault()
 		const body = { email, password }
+		setLoginProcess(true)
 		const promise = await api.post('/auth', body)
 		if (promise.status === 200) {
 			if (promise.data.status === false && promise.data.message === 'Unauthorized') {
@@ -51,11 +53,11 @@ const Login: React.FC = () => {
 					<InputText placeholder="Password" type="password" required onChange={event => setPassword(event.currentTarget.value)} 
 						style={{width: '100%'}}/>
 					<Divider height="20px" />
-					<Button label="Login" type="submit" style={{width: '100%'}}/>
+					<Button label="Login" type="submit" style={{width: '100%'}} disabled={loginProcess}/>
 				</form>
 				<Divider height="10px" />
 				<Button label="Create Account" type="button" className="p-button-info" style={{width: '100%'}}
-					onClick={() => pushCreateAccount()}/>
+					onClick={() => pushCreateAccount()} disabled={loginProcess}/>
 			</Card>
 		</Container>
 	);
